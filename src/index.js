@@ -25,5 +25,33 @@ const reviews = [
 /////////////////////////////////////////////////////////////////////
 
 //1. Append the reviews to the DOM
-
+function renderReview(review) {
+  const reviewContainer = document.createElement('div');
+  reviewContainer.classList.add('review_container');
+  const reviewImage = document.createElement('img');
+  reviewImage.src = review.image;
+  const reviewContent = document.createElement('div');
+  const username = document.createElement('p');
+  username.textContent = review.username;
+  const starRating = document.createElement('p');
+  starRating.textContent = `Star Rating: ${review.star}`;
+  const reviewText = document.createElement('p');
+  reviewText.textContent = review.review;
+  reviewContent.append(username, starRating, reviewText);
+  reviewContainer.append(reviewImage, reviewContent);
+  document.querySelector('.reviews').appendChild(reviewContainer);
+}
+reviews.forEach(renderReview);
 //2. Append new reviews to the DOM from the form
+const form = document.querySelector('form');
+form.addEventListener('submit', function(e) {
+  e.preventDefault(); 
+  const username = document.getElementById('username').value;
+  const image = document.getElementById('image').value;
+  const star = document.getElementById('star').value;
+  const review = document.getElementById('review').value;
+  const newReview = { username, image, star: parseInt(star), review };
+reviews.push(newReview);
+renderReview(newReview);
+e.target.reset();
+});
